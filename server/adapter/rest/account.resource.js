@@ -29,8 +29,9 @@ var accountService = require('../../application').accountService;
 function createAccount(req, res) {
     var accountData = req.body;
     accountService.createAccount(accountData)
-        .then(function(account) {
-            res.send(account);
+        .then(function(out) {
+            if (out.err) throw out.err;
+            res.send(out.res);
         })
         .catch(function(error) {
             log.error(error);
@@ -48,8 +49,8 @@ function updateAccount(req, res) {
     var accountData = req.body;
 
     accountService.updateAccount(accountData)
-        .then(function(account) {
-            res.send(account);
+        .then(function(out) {
+            res.send(out.res);
         })
         .catch(function(error) {
             log.error(error);
@@ -66,8 +67,8 @@ function getAccount(req, res) {
 
     var id = req.params.id;
     accountService.getAccount(id)
-        .then(function(account) {
-            res.send(account);
+        .then(function(out) {
+            res.send(out.res);
         })
         .catch(errors.NotFoundError, function() {
             res.status(404).send({ 'message': 'Account ' + id + ' does not exist' });
@@ -85,8 +86,9 @@ function getAccount(req, res) {
  */
 function getAccounts(req, res) {
     accountService.getAccounts()
-        .then(function(accounts) {
-            res.send(accounts);
+        .then(function(out) {
+            if (out.err) throw out.err;
+            res.send(out.res);
         })
         .catch(function(error) {
             log.error(error);
@@ -104,8 +106,9 @@ function deleteAccount(req, res) {
     var id = req.params.id;
 
     accountService.deleteAccount(id)
-        .then(function() {
-            res.status(204).send(); // No Content
+        .then(function(out) {
+            if (out.err) throw out.err;
+            res.status(200).send(out.res); // No Content
         })
         .catch(function(error) {
             log.error(error);

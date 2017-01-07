@@ -22,8 +22,9 @@ var Account = require('../../domain').Account;
 function createAccount(accountData) {
     return new Promise(function(fulfill, reject) {
         var account = new Account(accountData);
-        mongodb.createAccount(accountData).then(function(out) {
-            fulfill(out);
+        mongodb.createAccount(account).then(function(err, res) {
+            console.log("err: " + err);
+            fulfill({ err, res });
         });
     });
 }
@@ -34,10 +35,10 @@ function createAccount(accountData) {
  * @return {Promise} A promise that returns the updated account (including the id)
  */
 function updateAccount(accountData) {
-    var account = new Account(accountData);
     return new Promise(function(fulfill, reject) {
-        mongodb.updateAccount(accountData).then(function(out) {
-            fulfill(out);
+        var account = new Account(accountData);
+        mongodb.updateAccount(accountData).then(function({ err, res }) {
+            fulfill({ err, res });
         });
     });
 }
@@ -49,8 +50,8 @@ function updateAccount(accountData) {
  */
 function getAccount(id) {
     return new Promise(function(fulfill, reject) {
-        mongodb.getAccount(id).then(function(out) {
-            fulfill(out);
+        mongodb.getAccount(id).then(function({ err, res }) {
+            fulfill({ err, res });
         });
     });
 }
@@ -62,8 +63,8 @@ function getAccount(id) {
  */
 function getAccounts(callback) {
     return new Promise(function(fulfill, reject) {
-        mongodb.getAccounts().then(function(out) {
-            fulfill(out);
+        mongodb.getAccounts().then(function({ err, res }) {
+            return fulfill({ err, res });
         });
     });
 }
@@ -75,8 +76,8 @@ function getAccounts(callback) {
  */
 function deleteAccount(id) {
     return new Promise(function(fulfill, reject) {
-        mongodb.deleteAccount(id).then(function(out) {
-            fulfill(out);
+        mongodb.deleteAccount(id).then(function({ err, res }) {
+            fulfill({ err, res });
         });
     });
 }

@@ -15,11 +15,11 @@ module.exports = {
 
     createAccount: function(accountData, callback) {
         return new Promise(function(fulfill, reject) {
-            MongoClient.connect(connection, function(err, client) {
-                assert.equal(null, err);
-                client.collection(collection_accounts).insert({ accountData }, function(err, inserted) {
-                    console.log(err);
-                    fulfill(inserted);
+            MongoClient.connect(connection, { "socketOptions.connectTimeoutMS": 1000 }, function(err, client) {
+                if (err) return fulfill({ err });
+                client.collection(collection_accounts).insert({ accountData }, function(err, res) {
+                    if (err) return fulfill({ err });
+                    fulfill(res);
                 });
             });
         });
@@ -28,11 +28,12 @@ module.exports = {
     updateAccount: function(accountData, callback) {
         return new Promise(function(fulfill, reject) {
             MongoClient.connect(connection, function(err, client) {
-                assert.equal(null, err);
-                client.collection(collection_accounts).findOneAndDelete({ "accountData.id": accountData.id }, function(err, results) {
-                    console.log(results);
-                    client.collection(collection_accounts).insert(accountData, function(err, results) {
-                        fulfill(results);
+                if (err) return fulfill({ err });
+                client.collection(collection_accounts).findOneAndDelete({ "accountData.id": accountData.id }, function(err, res) {
+                    if (err) return fulfill({ err });
+                    client.collection(collection_accounts).insert(accountData, function(err, res) {
+                        if (err) return reject(err);
+                        fulfill({ err, res });
                     });
                 });
             });
@@ -42,9 +43,10 @@ module.exports = {
     getAccount: function(id) {
         return new Promise(function(fulfill, reject) {
             MongoClient.connect(connection, function(err, client) {
-                assert.equal(null, err);
-                client.collection(collection_accounts).find({ "accountData.id": Number(id) }).toArray(function(err, results) {
-                    fulfill(results);
+                if (err) return fulfill({ err });
+                client.collection(collection_accounts).find({ "accountData.id": Number(id) }).toArray(function(err, res) {
+                    if (err) return fulfill({ err });
+                    fulfill(res);
                 });
             });
         });
@@ -53,9 +55,10 @@ module.exports = {
     getAccounts: function() {
         return new Promise(function(fulfill, reject) {
             MongoClient.connect(connection, function(err, client) {
-                assert.equal(null, err);
-                client.collection(collection_accounts).find({}).toArray(function(err, results) {
-                    fulfill(results);
+                if (err) return fulfill({ err });
+                client.collection(collection_accounts).find({}).toArray(function(err, res) {
+                    if (err) return fulfill({ err });
+                    fulfill({ res });
                 });
             });
         });
@@ -64,9 +67,12 @@ module.exports = {
     deleteAccount: function(id) {
         return new Promise(function(fulfill, reject) {
             MongoClient.connect(connection, function(err, client) {
-                assert.equal(null, err);
-                client.collection(collection_accounts).deleteOne({ "accountData.id": Number(id) }, function(err, results) {
-                    fulfill(results);
+                if (err) return fulfill({ err });
+                client.collection(collection_accounts).deleteOne({ "accountData.id": Number(id) }, function(err, res) {
+                    if (err) return fulfill({ err });
+                    // nothing was deleted
+                    if (res.result.n == 0) res = false;
+                    fulfill({ err, res });
                 });
             });
         });

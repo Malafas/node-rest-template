@@ -18,8 +18,8 @@ var accountRepository = persistence.accountRepository;
  */
 function createAccount(accountData) {
     return new Promise(function(fulfill, reject) {
-        accountRepository.createAccount(accountData).then(function(out) {
-            fulfill(out);
+        accountRepository.createAccount(accountData).then(function({ err, res }) {
+            return fulfill({ err, res });
         });
     });
 }
@@ -31,8 +31,8 @@ function createAccount(accountData) {
  */
 function updateAccount(accountData) {
     return new Promise(function(fulfill, reject) {
-        accountRepository.updateAccount(accountData).then(function(out) {
-            fulfill(out);
+        accountRepository.updateAccount(accountData).then(function({ err, res }) {
+            return fulfill({ err, res });
         });
     });
 }
@@ -44,8 +44,8 @@ function updateAccount(accountData) {
  */
 function getAccount(id) {
     return new Promise(function(fulfill, reject) {
-        accountRepository.getAccount(id).then(function(out) {
-            fulfill(out);
+        accountRepository.getAccount(id).then(function({ err, res }) {
+            return fulfill({ err, res });
         });
     });
 }
@@ -56,8 +56,8 @@ function getAccount(id) {
  */
 function getAccounts() {
     return new Promise(function(fulfill, reject) {
-        accountRepository.getAccounts().then(function(out) {
-            return fulfill(out);
+        accountRepository.getAccounts().then(function({ err, res }) {
+            return fulfill({ err, res });
         });
     });
 }
@@ -69,8 +69,8 @@ function getAccounts() {
  */
 function deleteAccount(id) {
     return new Promise(function(fulfill, reject) {
-        accountRepository.deleteAccount(id).then(function(out) {
-            return fulfill(out);
+        accountRepository.deleteAccount(id).then(function({ err, res }) {
+            return fulfill({ err, res });
         })
     });
 }
