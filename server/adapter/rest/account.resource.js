@@ -66,7 +66,6 @@ function updateAccount(req, res) {
 function getAccount(req, res) {
 
     var id = req.params.id;
-
     accountService.getAccount(id)
         .then(function(account) {
             res.send(account);

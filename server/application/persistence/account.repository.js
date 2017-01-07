@@ -40,8 +40,13 @@ function updateAccount(accountData) {
  * @return {Promise} A promise that returns the desired account.
  */
 function getAccount(id) {
-    mongodb.getAccount(id);
+    return new Promise(function(fulfill, reject) {
+        mongodb.getAccount(id).then(function(out) {
+            fulfill(out);
+        });
+    });
 }
+
 
 /**
  * Gets all accounts.

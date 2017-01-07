@@ -35,7 +35,11 @@ function updateAccount(accountData) {
  * @return {Promise} A promise that returns the desired account.
  */
 function getAccount(id) {
-    return Promise.resolve(accountRepository.getAccount(id));
+    return new Promise(function(fulfill, reject) {
+        accountRepository.getAccount(id).then(function(out) {
+            fulfill(out);
+        });
+    });
 }
 
 /**

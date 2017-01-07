@@ -22,11 +22,9 @@ module.exports = {
                 });
             });
         });
-
     },
 
     updateAccount: function(accountData, callback) {
-
         return new Promise(function(fulfill, reject) {
             MongoClient.connect(connection, function(err, client) {
                 assert.equal(null, err);
@@ -39,19 +37,17 @@ module.exports = {
         });
     },
 
-    getAccount: function(id, callback) {
+    getAccount: function(id) {
         return new Promise(function(fulfill, reject) {
             MongoClient.connect(connection, function(err, client) {
                 assert.equal(null, err);
-                client.collection(collection_accounts).find({}, function(err, results) {
+                console.log("id: " + id);
+                client.collection(collection_accounts).find({ "accountData.id": Number(id) }).toArray(function(err, results) {
+                    console.log("results: %js", results);
                     fulfill(results);
                 });
             });
         });
-        /*MongoClient.connect(connection, function(err, client) {
-            assert.equal(null, err);
-            client.collection(collection_accounts).find({ id: id })
-        });*/
     },
 
     getAccounts: function() {
@@ -65,11 +61,13 @@ module.exports = {
         });
     },
 
-    deleteAccount: function(id, callback) {
+    deleteAccount: function(id) {
         return new Promise(function(fulfill, reject) {
             MongoClient.connect(connection, function(err, client) {
                 assert.equal(null, err);
-                fulfill(client.collection(collection_accounts).deleteOne(accountData));
+                client.collection(collection_accounts).deleteOne(function(err, results) {
+                    fulfill(results);
+                });
             });
         });
     }
