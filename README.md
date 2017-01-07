@@ -13,16 +13,7 @@ This template provides a starter project that implements best practices in Node.
     - on OSX, install [home brew](http://brew.sh/) and type `brew install node`
     - on Windows, use the installer available at [nodejs.org](http://nodejs.org/)
 
-- Install Postgres and postgresql93-devel (development header files and libraries)
-
 - Clone this repo
-
-- Create a database called `demo` and create the tables needed by the app
-
-        $ cd sql
-        $ psql demo
-        demo=# \i create-schema.sql
-        demo=# \i load-data.sql
 
 - Open a terminal (command line) window
 
