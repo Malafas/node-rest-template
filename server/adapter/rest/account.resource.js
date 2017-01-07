@@ -29,14 +29,13 @@ var accountService = require('../../application').accountService;
 function createAccount(req, res) {
 
     var accountData = req.body;
-
     accountService.createAccount(accountData)
         .then(function(account) {
             res.send(account);
         })
         .catch(function(error) {
             log.error(error);
-            res.status(500).send({'message': error.toString()});
+            res.status(500).send({ 'message': error.toString() });
         });
 }
 
@@ -55,7 +54,7 @@ function updateAccount(req, res) {
         })
         .catch(function(error) {
             log.error(error);
-            res.status(500).send({'message': error.toString()});
+            res.status(500).send({ 'message': error.toString() });
         });
 }
 
@@ -73,11 +72,11 @@ function getAccount(req, res) {
             res.send(account);
         })
         .catch(errors.NotFoundError, function() {
-            res.status(404).send({'message': 'Account ' + id + ' does not exist'});
+            res.status(404).send({ 'message': 'Account ' + id + ' does not exist' });
         })
         .catch(function(error) {
             log.error(error);
-            res.status(500).send({'message': error.toString()});
+            res.status(500).send({ 'message': error.toString() });
         });
 }
 
@@ -89,11 +88,12 @@ function getAccount(req, res) {
 function getAccounts(req, res) {
     accountService.getAccounts()
         .then(function(accounts) {
+            console.log("accounts: " + accounts)
             res.send(accounts);
         })
         .catch(function(error) {
             log.error(error);
-            res.status(500).send({'message': error.toString()});
+            res.status(500).send({ 'message': error.toString() });
         });
 }
 
@@ -108,10 +108,10 @@ function deleteAccount(req, res) {
 
     accountService.deleteAccount(id)
         .then(function() {
-            res.status(204).send();  // No Content
+            res.status(204).send(); // No Content
         })
         .catch(function(error) {
             log.error(error);
-            res.status(500).send({'message': error.toString()});
+            res.status(500).send({ 'message': error.toString() });
         });
 }

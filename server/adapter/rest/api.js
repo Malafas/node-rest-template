@@ -13,7 +13,7 @@ var cors = require('cors');
 api.use(cors());
 
 // Add middleware to parse the POST data of the body
-api.use(bodyParser.urlencoded({extended: true}));
+api.use(bodyParser.urlencoded({ extended: true }));
 
 // Add middleware to parse application/json
 api.use(bodyParser.json());
@@ -21,7 +21,9 @@ api.use(bodyParser.json());
 // Serve static content from the public directory
 api.use('/', express.static(__dirname + '/../../public'));
 
-// Add API routes
+/******************** 
+ * Add API routes 
+ * ******************/
 require('./account.resource').addRoutes(api);
 
 module.exports = api;
