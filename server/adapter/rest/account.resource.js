@@ -27,7 +27,6 @@ var accountService = require('../../application').accountService;
  * @param {Object} res - res.body contains the inserted account (including the id)
  */
 function createAccount(req, res) {
-
     var accountData = req.body;
     accountService.createAccount(accountData)
         .then(function(account) {
@@ -87,7 +86,6 @@ function getAccount(req, res) {
 function getAccounts(req, res) {
     accountService.getAccounts()
         .then(function(accounts) {
-            console.log("accounts: " + accounts)
             res.send(accounts);
         })
         .catch(function(error) {

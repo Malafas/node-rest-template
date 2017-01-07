@@ -17,7 +17,11 @@ var accountRepository = persistence.accountRepository;
  * @return {Promise} A promise that returns the inserted account (including the id)
  */
 function createAccount(accountData) {
-    return Promise.resolve(accountRepository.createAccount(accountData));
+    return new Promise(function(fulfill, reject) {
+        accountRepository.createAccount(accountData).then(function(out) {
+            fulfill(out);
+        });
+    });
 }
 
 /**
@@ -26,7 +30,11 @@ function createAccount(accountData) {
  * @return {Promise} A promise that returns the updated account (including the id)
  */
 function updateAccount(accountData) {
-    return Promise.resolve(accountRepository.updateAccount(accountData));
+    return new Promise(function(fulfill, reject) {
+        accountRepository.updateAccount(accountData).then(function(out) {
+            fulfill(out);
+        });
+    });
 }
 
 /**
@@ -60,5 +68,9 @@ function getAccounts() {
  * @return {Promise} A promise that gets fulfilled when the account is deleted.
  */
 function deleteAccount(id) {
-    return Promise.resolve(accountRepository.deleteAccount(id));
+    return new Promise(function(fulfill, reject) {
+        accountRepository.deleteAccount(id).then(function(out) {
+            return fulfill(out);
+        })
+    });
 }

@@ -1,4 +1,5 @@
-/* createAccount(accountData);
+/* 
+createAccount(accountData);
 updateAccount(accountData);
 getAccount(id);
 getAccounts();
@@ -28,7 +29,8 @@ module.exports = {
         return new Promise(function(fulfill, reject) {
             MongoClient.connect(connection, function(err, client) {
                 assert.equal(null, err);
-                client.collection(collection_accounts).findOneAndDelete(accountData, function(err, results) {
+                client.collection(collection_accounts).findOneAndDelete({ "accountData.id": accountData.id }, function(err, results) {
+                    console.log(results);
                     client.collection(collection_accounts).insert(accountData, function(err, results) {
                         fulfill(results);
                     });
@@ -41,9 +43,7 @@ module.exports = {
         return new Promise(function(fulfill, reject) {
             MongoClient.connect(connection, function(err, client) {
                 assert.equal(null, err);
-                console.log("id: " + id);
                 client.collection(collection_accounts).find({ "accountData.id": Number(id) }).toArray(function(err, results) {
-                    console.log("results: %js", results);
                     fulfill(results);
                 });
             });
@@ -65,7 +65,7 @@ module.exports = {
         return new Promise(function(fulfill, reject) {
             MongoClient.connect(connection, function(err, client) {
                 assert.equal(null, err);
-                client.collection(collection_accounts).deleteOne(function(err, results) {
+                client.collection(collection_accounts).deleteOne({ "accountData.id": Number(id) }, function(err, results) {
                     fulfill(results);
                 });
             });

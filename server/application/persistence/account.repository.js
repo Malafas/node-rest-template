@@ -20,8 +20,12 @@ var Account = require('../../domain').Account;
  * @return {Promise} A promise that returns the inserted account (including the id)
  */
 function createAccount(accountData) {
-    var account = new Account(accountData);
-    mongodb.createAccount(accountData);
+    return new Promise(function(fulfill, reject) {
+        var account = new Account(accountData);
+        mongodb.createAccount(accountData).then(function(out) {
+            fulfill(out);
+        });
+    });
 }
 
 /**
@@ -31,7 +35,11 @@ function createAccount(accountData) {
  */
 function updateAccount(accountData) {
     var account = new Account(accountData);
-    mongodb.updateAccount(accountData);
+    return new Promise(function(fulfill, reject) {
+        mongodb.updateAccount(accountData).then(function(out) {
+            fulfill(out);
+        });
+    });
 }
 
 /**
@@ -66,5 +74,9 @@ function getAccounts(callback) {
  * @return {Promise} A promise that gets fulfilled when the account is deleted.
  */
 function deleteAccount(id) {
-    mongodb.deleteAccount(id);
+    return new Promise(function(fulfill, reject) {
+        mongodb.deleteAccount(id).then(function(out) {
+            fulfill(out);
+        });
+    });
 }
